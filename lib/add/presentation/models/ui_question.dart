@@ -36,7 +36,7 @@ class UiQuestion extends Equatable {
           questionId: qId,
           confirme: true,
           content: RLang(
-              texte: answer1, link: url, versetRef: verse, verset: verseRef),
+              texte: answer1, link: url, versetRef: verseRef, verset: verse),
         ),
         Answer(
           id: '',

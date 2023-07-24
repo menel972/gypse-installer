@@ -67,9 +67,13 @@ class AddQuestionForm extends HookConsumerWidget {
                                     .startsWith(value.text.toLowerCase());
                               });
                             },
-                            onSelected: (value) => context
-                                .read<AddQuestionBloc>()
-                                .onBookSelected(value: value),
+                            onSelected: (value) {
+                              context
+                                  .read<AddQuestionBloc>()
+                                  .onBookSelected(value: value);
+
+                              context.read<AddQuestionBloc>().setUrl();
+                            },
                           ),
                         ),
                       ],
@@ -88,16 +92,10 @@ class AddQuestionForm extends HookConsumerWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Lien :',
-                              suffix: Text(state.urlError),
-                            ),
-                            onChanged: (value) => context
-                                .read<AddQuestionBloc>()
-                                .onUrlChanged(value: value),
-                          ),
-                        ),
+                            child: Text(
+                          'Lien : ${state.url}',
+                          style: const Font.m(color: Colors.black87),
+                        )),
                         Dimensions.xxs(context).spaceW(),
                         Text(
                             state.bookShort.isNotEmpty
@@ -112,9 +110,13 @@ class AddQuestionForm extends HookConsumerWidget {
                               labelText: 'Référence :',
                               suffix: Text(state.verseRefError),
                             ),
-                            onChanged: (value) => context
-                                .read<AddQuestionBloc>()
-                                .onVerseRefChanged(value: value),
+                            onChanged: (value) {
+                              context
+                                  .read<AddQuestionBloc>()
+                                  .onVerseRefChanged(value: value);
+
+                              context.read<AddQuestionBloc>().setUrl();
+                            },
                           ),
                         ),
                       ],

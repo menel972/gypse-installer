@@ -90,6 +90,18 @@ class AddQuestionBloc extends Cubit<AddQuestionState> {
     emit(state.copyWith(verseRef: value, verseRefError: ''));
   }
 
+  void setUrl() {
+    String urlVerse =
+        state.verseRef.isEmpty ? '' : state.verseRef.replaceAll(':', '.');
+    String urlBook = state.book.isEmpty
+        ? ''
+        : Book.values.firstWhere((book) => book.label == state.book).suffix;
+
+    emit(state.copyWith(
+        url: 'https://www.bible.com/fr/bible/93/$urlBook.$urlVerse.LSG',
+        urlError: ''));
+  }
+
   void onAnswer2Changed({String value = ''}) {
     if (isEmpty(value) != null) {
       emit(state.copyWith(answer2Error: isEmpty(value)));
