@@ -19,7 +19,7 @@ class AddQuestionForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Future<void> addContent(UiQuestion content) =>
-        ref.read(AddContentUsecase.wsAddRequestsProvider()).invoke(content);
+        ref.read(AddQuestionUsecase.wsAddRequestsProvider()).invoke(content);
 
     return BlocConsumer<AddQuestionBloc, AddQuestionState>(
         listener: (context, state) {},

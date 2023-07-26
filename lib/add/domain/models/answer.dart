@@ -1,54 +1,85 @@
 import 'package:equatable/equatable.dart';
-import 'package:gypse_installer/add/data/models/ws_answer.dart';
+import 'package:gypse_installer/add/data/models/ws_answer_response.dart';
+import 'package:gypse_installer/add/presentation/models/ui_answer.dart';
+import 'package:gypse_installer/common/extensions.dart';
 
+///<i><small>`Domain Layer`</small></i>
+///## Answer's data <i><small>(received from the data layer)</small></i>
+///
+///```
+///final String id;
+///final bool isRightAnswer;
+///final String answer;
+///final String url;
+///final String verse;
+///final String verseReference;
+///```
+///
+///The `Answer` is parsed to the `Presentation Layer` using the [Answer.toPresentation] method.
+///<br><br>
+///It contains all the data for an answer.
 class Answer extends Equatable {
-  final String id;
-  final String questionId;
-  final bool confirme;
-  final RLang content;
+  final String qId;
+  final bool isRightAnswer;
+  final String answer;
+  final String url;
+  final String verse;
+  final String verseReference;
 
+  ///<i><small>`Domain Layer`</small></i>
+  ///### Answer's data <i><small>(received from the data layer)</small></i>
+  ///#### `Answer` constructor
+  ///<br>
+  ///It contains all the data for an answer.
   const Answer({
-    required this.id,
-    required this.questionId,
-    required this.confirme,
-    required this.content,
+    required this.qId,
+    required this.isRightAnswer,
+    required this.answer,
+    required this.url,
+    required this.verse,
+    required this.verseReference,
   });
 
   @override
-  List<Object?> get props => [id, questionId, confirme, content];
+  List<Object> get props {
+    return [
+      qId,
+      isRightAnswer,
+      answer,
+      url,
+      verse,
+      verseReference,
+    ];
+  }
 
-  WsAnswer toData() => WsAnswer(
-      id: id, questionId: questionId, confirme: confirme, fr: content.toData());
+  /// <i><small>`Domain Layer`</small></i><br>
+  /// Converts an `Answer` into an `UiAnswer`.
+  UiAnswer toPresentation() {
+    return UiAnswer(
+      qId: qId,
+      isRightAnswer: isRightAnswer,
+      text: answer,
+      url: url,
+      verse: verse,
+      verseReference: verseReference,
+    );
+  }
 
-  factory Answer.fromData(WsAnswer data) => Answer(
-      id: data.id,
-      questionId: data.questionId,
-      confirme: data.confirme,
-      content: RLang.fromData(data.fr));
-}
-
-class RLang extends Equatable {
-  final String texte;
-  final String? link;
-  final String? versetRef;
-  final String? verset;
-
-  const RLang({
-    required this.texte,
-    this.link,
-    this.versetRef,
-    this.verset,
-  });
-
-  @override
-  List<Object?> get props => [texte, link, versetRef, verset];
-
-  WsRLang toData() =>
-      WsRLang(texte: texte, link: link, versetRef: versetRef, verset: verset);
-
-  factory RLang.fromData(WsRLang data) => RLang(
-      texte: data.texte,
-      link: data.link,
-      versetRef: data.versetRef,
-      verset: data.verset);
+  WsAnswerResponse toData() {
+    try {
+      return WsAnswerResponse(
+        questionId: qId,
+        isRightAnswer: isRightAnswer,
+        fr: WsAnswerData(
+          answer: answer,
+          url: url,
+          verse: verse,
+          verseReference: verseReference,
+        ),
+      );
+    } catch (e) {
+      e.log(tag: 'Answer.toData');
+      return WsAnswerResponse();
+    }
+  }
 }

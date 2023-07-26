@@ -25,10 +25,6 @@ extension Pads on Dimensions {
   }
 }
 
-extension Print on Object {
-  void log() => debugPrint(toString());
-}
-
 extension Snack on String {
   void sucsess(BuildContext context) =>
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -49,4 +45,25 @@ extension Snack on String {
         backgroundColor: Colors.red,
         duration: const Duration(seconds: 5),
       ));
+}
+
+///## Extension on any [Object]
+///
+/// Logs the object to debug console.
+extension Print on Object {
+  ///## Extension on any [Object]
+  ///
+  /// Logs the object to debug console using [debugPrint].
+  void log({String? tag}) =>
+      debugPrint('${tag.isNull ? '[]' : '[$tag] :'} $this');
+}
+
+///## Extension on any [Object]
+///
+/// Wheather the object is null.
+extension Null on Object? {
+  ///## Extension on any [Object]
+  ///
+  /// Wheather the object is null..
+  bool get isNull => this == null;
 }

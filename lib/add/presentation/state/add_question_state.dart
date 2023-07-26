@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:gypse_installer/add/presentation/models/ui_answer.dart';
 import 'package:gypse_installer/add/presentation/models/ui_question.dart';
+import 'package:gypse_installer/common/enums.dart';
 
 class AddQuestionState extends Equatable {
   final String question;
@@ -119,13 +121,33 @@ class AddQuestionState extends Equatable {
       );
 
   UiQuestion toQuestion() => UiQuestion(
-      book: book,
-      text: question,
-      answer1: answer1,
-      url: url,
-      verse: verse,
-      verseRef: '$bookShort $verseRef',
-      answer2: answer2,
-      answer3: answer3,
-      answer4: answer4);
+        '',
+        book: Books.values.firstWhere((element) => element.fr == book),
+        text: question,
+        answers: [
+          UiAnswer(
+            qId: '',
+            isRightAnswer: true,
+            text: answer1,
+            url: url,
+            verse: verse,
+            verseReference: '$bookShort $verseRef',
+          ),
+          UiAnswer(
+            qId: '',
+            isRightAnswer: false,
+            text: answer2,
+          ),
+          UiAnswer(
+            qId: '',
+            isRightAnswer: false,
+            text: answer3,
+          ),
+          UiAnswer(
+            qId: '',
+            isRightAnswer: false,
+            text: answer4,
+          ),
+        ],
+      );
 }

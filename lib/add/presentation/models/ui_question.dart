@@ -1,60 +1,40 @@
 import 'package:equatable/equatable.dart';
-import 'package:gypse_installer/add/domain/models/answer.dart';
 import 'package:gypse_installer/add/domain/models/question.dart';
+import 'package:gypse_installer/add/presentation/models/ui_answer.dart';
+import 'package:gypse_installer/common/enums.dart';
 
+///<i><small>`Presentation Layer`</small></i>
+///## Displayed question <i><small>(received from the domain layer)</small></i>
+///
+///```
+///final String uId;
+///final String question;
+///final Books book;
+///```
+///
+///It contains all the data for a question to be displayed on the screen.
 class UiQuestion extends Equatable {
-  final String book;
+  final String uId;
   final String text;
-  final String answer1;
-  final String url;
-  final String verse;
-  final String verseRef;
-  final String answer2;
-  final String answer3;
-  final String answer4;
+  final Books book;
+  final List<UiAnswer> answers;
 
-  const UiQuestion({
-    required this.book,
-    required this.text,
-    required this.answer1,
-    required this.url,
-    required this.verse,
-    required this.verseRef,
-    required this.answer2,
-    required this.answer3,
-    required this.answer4,
-  });
+  ///<i><small>`Presentation Layer`</small></i>
+  ///### Displayed question <i><small>(received from the domain layer)</small></i>
+  ///#### `UiQuestion` constructor
+  ///<br>
+  ///It contains all the data for a question to be displayed on the screen.
+  const UiQuestion(this.uId,
+      {this.text = '', this.book = Books.gen, this.answers = const []});
 
   @override
-  List<Object?> get props => [book, text];
+  List<Object> get props => [uId, text, book, answers];
 
-  Question toQDomain() => Question('', QLang(text, book));
-
-  List<Answer> toRDomain(String qId) => [
-        Answer(
-          id: '',
-          questionId: qId,
-          confirme: true,
-          content: RLang(
-              texte: answer1, link: url, versetRef: verseRef, verset: verse),
-        ),
-        Answer(
-          id: '',
-          questionId: qId,
-          confirme: false,
-          content: RLang(texte: answer2),
-        ),
-        Answer(
-          id: '',
-          questionId: qId,
-          confirme: false,
-          content: RLang(texte: answer3),
-        ),
-        Answer(
-          id: '',
-          questionId: qId,
-          confirme: false,
-          content: RLang(texte: answer4),
-        ),
-      ];
+  Question toDomain() {
+    return Question(
+        uId: uId,
+        question: text,
+        book: book.fr,
+        answers: [...answers.map((e) => e.toDomain())]);
+  }
 }
