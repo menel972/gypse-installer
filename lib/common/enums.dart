@@ -243,3 +243,5 @@ enum Books {
     this.esCode,
   });
 }
+
+enum Status { initial, loading, success, error }

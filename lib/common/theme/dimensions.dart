@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 class Dimensions extends Size {
   final BuildContext context;
 
+  Dimensions.xxxs(this.context)
+      : super(
+          MediaQuery.of(context).size.width * 0.01,
+          MediaQuery.of(context).size.height * 0.01,
+        );
+
   Dimensions.xxs(this.context)
       : super(
           MediaQuery.of(context).size.width * 0.02,

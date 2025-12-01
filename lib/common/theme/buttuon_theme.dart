@@ -7,7 +7,7 @@ class GypseElevatedButton extends ElevatedButton {
   const GypseElevatedButton({
     super.key,
     required this.label,
-    required super.onPressed,
+    super.onPressed,
     super.child,
   });
 
@@ -15,12 +15,22 @@ class GypseElevatedButton extends ElevatedButton {
   Widget get child => Text(
         label,
         maxLines: 1,
-        style: const Font.s(color: Colors.white),
+        style: Font.s(color: onPressed != null ? Colors.white : Colors.black),
       );
 
   @override
   ButtonStyle? get style => ButtonStyle(
         alignment: Alignment.center,
-        backgroundColor: MaterialStateProperty.resolveWith((_) => Colors.black),
+        backgroundColor: WidgetStateProperty.resolveWith(
+            (_) => onPressed != null ? Colors.black : Colors.grey[300]),
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(
+              color: onPressed != null ? Colors.black : Colors.grey,
+              width: 1,
+            ),
+          ),
+        ),
       );
 }
